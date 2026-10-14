@@ -219,6 +219,6 @@ Pour capter les e-mails d’une app Laravel, démarrez **Mailpit** puis voir sa 
 
 ## Statut
 
-Version **0.1.0**, en usage de développement. Les retours (bugs, captures, demandes) sont les bienvenus sur le dépôt [atpro_ss](https://gitlab.com/atpro-corporate/environements/atpro_ss).
+Version **0.1.0**, en usage de développement. Les retours (bugs, captures, demandes) sont les bienvenus sur le dépôt [atpro_ss](https://github.com/as199/atpro-ss).
 
 © ATPRO CORPORATE
