@@ -47,9 +47,9 @@
 
 | Édition | Ce que vous obtenez |
 |---|---|
-| **Installateur NSIS** | Recommandé. Installation machine (`perMachine`), raccourcis, service `AtproSsHelper` et règles de pare-feu du groupe **ATPRO-SS** (ports 80, 443, 3306, 6379, 9000, 8025). Demande les droits administrateur **une seule fois**. |
-| **Installateur MSI** | Même application, sans l’installation automatique du Helper. Préférez le NSIS si vous voulez l’écriture du fichier `hosts` sans nouvelle invite UAC. |
-| **Portable** | Placez un fichier vide `portable.flag` à côté de `atpro-ss.exe`. Config, projets, PHP, Nginx et MySQL restent dans ce dossier. Rien n’est écrit dans le registre pour les données de l’app. Idéal sur une clé USB ou un poste sans droits admin. |
+| **[Installateur NSIS](https://github.com/as199/atpro-ss/raw/master/docs/releases/0.1.0/ATPRO-SS_0.1.0.exe)** | Recommandé. Installation machine (`perMachine`), raccourcis, service `AtproSsHelper` et règles de pare-feu du groupe **ATPRO-SS** (ports 80, 443, 3306, 6379, 9000, 8025). Demande les droits administrateur **une seule fois**. |
+| **[Installateur MSI](https://github.com/as199/atpro-ss/raw/master/docs/releases/0.1.0/ATPRO-SS_0.1.0.msi)** | Même application, sans l’installation automatique du Helper. Préférez le NSIS si vous voulez l’écriture du fichier `hosts` sans nouvelle invite UAC. |
+
 
 **Données.** En mode installé, la racine est `%APPDATA%\ATPRO-SS`. En développement et en mode portable, elle est le dossier de l’application. Projets, certificats, logs et configuration y survivent à une mise à jour de l’exécutable.
 
