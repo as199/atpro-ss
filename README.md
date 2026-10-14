@@ -47,8 +47,8 @@
 
 | Édition | Ce que vous obtenez |
 |---|---|
-| **[Installateur NSIS](https://github.com/as199/atpro-ss/raw/master/docs/releases/0.1.0/ATPRO-SS_0.1.0.exe)** | Recommandé. Installation machine (`perMachine`), raccourcis, service `AtproSsHelper` et règles de pare-feu du groupe **ATPRO-SS** (ports 80, 443, 3306, 6379, 9000, 8025). Demande les droits administrateur **une seule fois**. |
-| **[Installateur MSI](https://github.com/as199/atpro-ss/raw/master/docs/releases/0.1.0/ATPRO-SS_0.1.0.msi)** | Même application, sans l’installation automatique du Helper. Préférez le NSIS si vous voulez l’écriture du fichier `hosts` sans nouvelle invite UAC. |
+| **[Installateur NSIS](https://github.com/as199/atpro-ss/raw/master/docs/releases/0.1.0/ATPRO-SS_0.1.0_x64-setup.exe)** | Recommandé. Installation machine (`perMachine`), raccourcis, service `AtproSsHelper` et règles de pare-feu du groupe **ATPRO-SS** (ports 80, 443, 3306, 6379, 9000, 8025). Demande les droits administrateur **une seule fois**. |
+| **[Installateur MSI](https://github.com/as199/atpro-ss/raw/master/docs/releases/0.1.0/ATPRO-SS_0.1.0_x64_en-US.msi)** | Même application, sans l’installation automatique du Helper. Préférez le NSIS si vous voulez l’écriture du fichier `hosts` sans nouvelle invite UAC. |
 
 
 **Données.** En mode installé, la racine est `%APPDATA%\ATPRO-SS`. En développement et en mode portable, elle est le dossier de l’application. Projets, certificats, logs et configuration y survivent à une mise à jour de l’exécutable.
