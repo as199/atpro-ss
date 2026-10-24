@@ -6,12 +6,12 @@
 
 <p align="center">
   <strong>Environnement de développement web pour Windows.</strong><br/>
-  Une alternative légère à Laragon, XAMPP et WAMP : services locaux, projets, terminal, SSH et cron dans une seule application native.<br/>
+  Une alternative légère à Laragon, XAMPP et WAMP : services locaux, projets, terminal, SSH, base de données, logs, backup, deploy, sécurité et assistant IA dans une seule application native.<br/>
   Construit avec <a href="https://v2.tauri.app">Tauri 2</a>, Rust et React. Binaire natif, WebView2, sans Docker, sans WSL, sans Electron.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-0.1.0-7c5cff?style=flat-square" alt="Version 0.1.0"/>
+  <img src="https://img.shields.io/badge/version-0.5.0-7c5cff?style=flat-square" alt="Version 0.5.0"/>
   <img src="https://img.shields.io/badge/platform-Windows%2010%2F11%20x64-0078d6?style=flat-square" alt="Platform"/>
   <img src="https://img.shields.io/badge/built%20with-Tauri%202%20%2B%20Rust%20%2B%20React%2019-34d399?style=flat-square" alt="Stack"/>
 </p>
@@ -37,27 +37,21 @@
 - **Un domaine local par site** — vhost Nginx, entrée `hosts` et certificat signé par une autorité locale.
 - **Hosts sans UAC à répétition** — le service Windows `AtproSsHelper` écrit le fichier `hosts` après une seule élévation à l’installation.
 - **Mode portable** — un fichier `portable.flag` à côté de l’exécutable garde config, runtimes et projets dans le dossier de l’application.
-- **Terminal, SSH et cron intégrés** — shells avec le PATH du projet, client SSH/SFTP, tâches planifiées qui survivent à la fermeture de l’application.
+- **Terminal, SSH, cron, BDD, logs, backup, deploy, sécurité et IA** — shells avec le PATH du projet, client SSH/SFTP, tâches planifiées, requêtes SQL, vue unifiée des logs, sauvegardes AES-256 GFS, déploiement SSH, scan CVE/secrets, et assistant IA contextuel.
 
 ---
 
 <h2 id="installation">Installation</h2>
 
-**Version actuelle : 0.1.0.**
+**Version actuelle : 0.5.0.**
 
 | Édition | Ce que vous obtenez |
 |---|---|
-| **[Installateur NSIS](https://github.com/as199/atpro-ss/releases/download/v0.1.0/ATPRO-SS_0.1.0_x64-setup.exe)** | Recommandé. Installation machine (`perMachine`), raccourcis, service `AtproSsHelper` et règles de pare-feu du groupe **ATPRO-SS** (ports 80, 443, 3306, 6379, 9000, 8025). Demande les droits administrateur **une seule fois**. |
-| **[Installateur MSI](https://github.com/as199/atpro-ss/releases/download/v0.1.0/ATPRO-SS_0.1.0_x64_en-US.msi)** | Même application, sans l’installation automatique du Helper. Préférez le NSIS si vous voulez l’écriture du fichier `hosts` sans nouvelle invite UAC. |
+| **[Installateur NSIS](https://github.com/as199/atpro-ss/releases/download/v0.5.0/ATPRO-SS_0.5.0_x64-setup.exe)** | Recommandé. Installation machine (`perMachine`), raccourcis, service `AtproSsHelper` et règles de pare-feu du groupe **ATPRO-SS** (ports 80, 443, 3306, 6379, 9000, 8025). Demande les droits administrateur **une seule fois**. |
+| **[Installateur MSI](https://github.com/as199/atpro-ss/releases/download/v0.5.0/ATPRO-SS_0.5.0_x64_en-US.msi)** | Même application, sans l’installation automatique du Helper. Préférez le NSIS si vous voulez l’écriture du fichier `hosts` sans nouvelle invite UAC. |
 
 
 **Données.** En mode installé, la racine est `%APPDATA%\ATPRO-SS`. En développement et en mode portable, elle est le dossier de l’application. Projets, certificats, logs et configuration y survivent à une mise à jour de l’exécutable.
-
-**Mises à jour.** Settings → Updates interroge le canal signé Ed25519 :
-- `https://github.com/as199/atpro-ss/releases/latest/download/latest.json`
-- fallback : [`updates/latest.json`](./updates/latest.json) sur cette branche `master`
-
-Voir [`updates/README.md`](./updates/README.md) pour republier le manifeste.
 
 **Prérequis :** Windows 10 21H2+ ou Windows 11, x64 · WebView2 (déjà présent sur ces versions) · droits administrateur au premier lancement de l’installateur NSIS, pour le Helper et le fichier `hosts`.
 
@@ -77,11 +71,18 @@ Au premier lancement, l’application propose d’installer la pile **Nginx 1.30
 | 🌐 **Virtual hosts** | Site Nginx + ligne dans le fichier `hosts` Windows. Domaine, racine, port et SSL. Le Helper évite une invite UAC à chaque écriture. |
 | 🔐 **SSL local** | Autorité de certification locale, installation dans le magasin Windows, émission et révocation d’un certificat par domaine. Bascule SSL par projet. |
 | 💻 **Terminal** | xterm.js sur un vrai shell Windows. Onglets PowerShell, CMD, Git Bash et Cmder. Le PATH de la session contient le PHP et le Node du projet. Copier-coller au clavier ou à la souris. |
+| 🤖 **Agents IA** | Assistant contextuel (Ollama, OpenAI, Claude, Gemini). Contexte projet / logs / schéma / terminal, historique chiffré SQLite, agents et actions avec preview. |
 | 🔌 **SSH** | Hôtes avec tags, recherche, vue grille ou liste. Clés **Ed25519**, **RSA-4096** et **ECDSA P-256**, import de clé, `known_hosts`, test de connexion, **ProxyJump**, session interactive et navigateur **SFTP**. Import et export de la config. |
 | ⏰ **Cron** | Expressions à 5 champs, presets (chaque minute, 5 min, 15 min, heure, 03:00, scheduler Laravel). Scope global ou projet, répertoire de travail, PATH du projet. Historique et sortie. Option **exécuter même si ATPRO-SS est fermé**, via le Planificateur de tâches Windows et `LaraEnvRunner.exe`. |
+| 🗄️ **Database** | Connexions MySQL, PostgreSQL, SQLite et Redis. Détection `.env`, éditeur SQL, export CSV, ERD et migrations. |
+| 📜 **Logs** | Vue unifiée multi-sources (Nginx, PHP-FPM, MySQL, Redis…). Recherche full-text / regex, live refresh, niveaux, alertes et anomalies. |
+| 💾 **Backup** | Sauvegardes config, BDD et snapshots. Chiffrement **AES-256**, rétention **GFS**, import/export, diff et sync cloud (dossier local). |
+| 🧱 **Templates** | Catalogue de starters (Laravel, Symfony, Next.js, Nuxt, Astro, Django, React, static…). Import Git, aperçu et création de projet. |
+| 🚀 **Deploy** | Environnements de déploiement SSH, historique des runs, logs de progression et tunneling (Cloudflare, etc.). |
+| 🛡️ **Security** | Scan supply chain (CVE OSV), secrets, SBOM, sévérités, ignore et mise à jour de la base CVE locale. |
 | 🧩 **Libs / Tools** | Catalogue : Nginx, Apache, Caddy, MySQL, PostgreSQL, pgvector, Redis, PHP, Node.js, Python, Composer, Mailpit, Adminer, Cmder. Recherche, filtres, installation avec progression, désinstallation, badge de mise à jour et interrupteur « afficher sur le dashboard ». |
 | ⚙️ **Réglages services** | Nginx (`client_max_body_size`, timeouts, `worker_connections`, tailles de hash), limites PHP (`upload_max_filesize`, `post_max_size`, `memory_limit`, workers), directives Apache, extensions PHP, dossier `www` et versions PHP/Node par défaut. |
-| 🎨 **6 thèmes** | Nebula, Aurora, Sunset, Crimson, Oceanic, Midnight. Le thème s’applique tout de suite, y compris aux couleurs du terminal. |
+| 🎨 **Apparence** | Mode **Sombre / Clair**, 6 thèmes d’accent (Nebula, Aurora, Sunset, Crimson, Oceanic, Midnight). Application immédiate, y compris au terminal. |
 | 📨 **Mailpit** | SMTP local `127.0.0.1:1025`, interface web sur [http://localhost:8025](http://localhost:8025). Aucun mail ne sort sur Internet. |
 
 ---
@@ -127,17 +128,18 @@ Le domaine suit le suffixe global (`.test` par défaut).
   <img src="./docs/screenshots/projects.png" alt="Projets : filtres par tag, recherche et panneau de détail" width="100%" />
 </p>
 
-### Terminal
+### Terminal & Agents IA
 
-Un onglet est une session réelle. Le badge de la barre indique si le PATH des runtimes est injecté, et quelles versions de PHP et de Node sont actives. Ouvrir le terminal depuis un projet place le répertoire courant sur ce projet et sélectionne son shell. PowerShell, CMD, Git Bash et Cmder sont disponibles.
+Un onglet terminal est une session réelle. Le badge de la barre indique si le PATH des runtimes est injecté, et quelles versions de PHP et de Node sont actives. PowerShell, CMD, Git Bash et Cmder sont disponibles.
 
-Le mode de copie se règle dans **Paramètres → Apparence** :
-
-- **Clavier** — `Ctrl+Shift+C` / `Ctrl+Shift+V`
-- **Souris** — le clic droit copie la sélection ou colle
+L’onglet **Agents** ouvre l’assistant IA : choix du provider (Ollama local ou cloud), modèle, clé API, contexte (projet, logs, schéma, terminal), historique de conversation persisté, et chat avec avatars Assistant / Vous.
 
 <p align="center">
   <img src="./docs/screenshots/terminal.png" alt="Terminal PowerShell avec le PATH PHP du projet" width="100%" />
+</p>
+
+<p align="center">
+  <img src="./docs/screenshots/ia.png" alt="Agents IA : chat, providers et historique" width="100%" />
 </p>
 
 ### SSH
@@ -158,6 +160,54 @@ Une tâche a un nom, une expression, une commande, un scope (global ou un projet
 
 <p align="center">
   <img src="./docs/screenshots/cron.png" alt="Cron : tâches planifiées locales, filtres Global et Projet" width="100%" />
+</p>
+
+### Database
+
+**Connections & queries** gère MySQL, PostgreSQL, SQLite et Redis. Détection des credentials via `.env`, sélecteur de base et liste des tables, éditeur SQL (Ctrl-Enter), export CSV, onglets **ERD** et **Migrations**.
+
+<p align="center">
+  <img src="./docs/screenshots/database.png" alt="Database : connexions, tables, SQL et résultats" width="100%" />
+</p>
+
+### Logs
+
+Vue unifiée des journaux locaux : sources (Nginx, PHP-FPM, MySQL, Redis…), recherche full-text et regex, live refresh, filtres par niveau, alertes / anomalies, et détail d’une entrée.
+
+<p align="center">
+  <img src="./docs/screenshots/logs.png" alt="Logs : sources, niveaux, alertes et table unifiée" width="100%" />
+</p>
+
+### Backup
+
+Sauvegardes **config**, **BDD** et **snapshots**, chiffrement AES-256, comparaison (diff), import / export. Rétention **GFS** (daily / weekly / monthly / yearly) et destination cloud via dossier sync local.
+
+<p align="center">
+  <img src="./docs/screenshots/backup.png" alt="Backup : liste, rétention GFS et cloud" width="100%" />
+</p>
+
+### Templates
+
+Catalogue de templates intégrés (backend, CMS, frontend, fullstack, static). Recherche, filtres, import depuis Git, aperçu et création de projet en un clic.
+
+<p align="center">
+  <img src="./docs/screenshots/template.png" alt="Templates : catalogue et filtres" width="100%" />
+</p>
+
+### Deploy
+
+Environnements de déploiement SSH, lancement de runs, historique et logs de progression. Tunneling intégré (ex. Cloudflare) pour exposer un port local.
+
+<p align="center">
+  <img src="./docs/screenshots/deploy.png" alt="Deploy : environnements, historique et tunneling" width="100%" />
+</p>
+
+### Security
+
+Scan supply chain via OSV (CVE), détection de secrets, SBOM, filtres par projet et sévérité, ignore d’une vulnérabilité, et mise à jour de la base CVE locale.
+
+<p align="center">
+  <img src="./docs/screenshots/security.png" alt="Security : CVE, sévérités, secrets et SBOM" width="100%" />
 </p>
 
 ### Libs / Tools
@@ -188,12 +238,12 @@ Le catalogue couvre Nginx, Apache, Caddy, MySQL, PostgreSQL, pgvector, Redis, PH
 
 ### Paramètres
 
-- **Apparence** — un des six thèmes (Nebula, Aurora, Sunset, Crimson, Oceanic, Midnight), et le mode copier-coller du terminal. Le changement s’applique tout de suite, y compris aux fenêtres de terminal déjà ouvertes.
+- **Apparence** — mode **Sombre** / **Clair**, un des six thèmes d’accent (Nebula, Aurora, Sunset, Crimson, Oceanic, Midnight), et le mode copier-coller du terminal. Le changement s’applique tout de suite, y compris aux fenêtres de terminal déjà ouvertes.
 - **Services** — CA locale, directives Nginx, limites PHP et extensions, directives Apache, dossier des sites et versions PHP/Node par défaut. La télémétrie est désactivée tant que vous ne l’activez pas.
-- **Updates** — affiche la version installée (`0.1.0`). Le canal de mise à jour automatique n’est pas encore branché : la vérification indique que vous êtes à jour.
+- **Updates** — vérifie les mises à jour signées (Ed25519) via GitHub Releases (`latest.json`). En installation NSIS/MSI : téléchargement + installation + redémarrage. En mode portable : téléchargement du ZIP puis extraction manuelle (les données utilisateur ne sont jamais écrasées). Détails : [`docs/15-updates-release.md`](docs/15-updates-release.md).
 
 <p align="center">
-  <img src="./docs/screenshots/settings.png" alt="Paramètres : thèmes et mode de copie du terminal" width="100%" />
+  <img src="./docs/screenshots/settings_1.png" alt="Paramètres : mode sombre/clair et thèmes d’accent" width="100%" />
 </p>
 
 ---
@@ -204,7 +254,7 @@ Le catalogue couvre Nginx, Apache, Caddy, MySQL, PostgreSQL, pgvector, Redis, PH
 2. Au premier écran, laissez l’installation de **Nginx**, **MySQL** et **Redis** se terminer.
 3. Ouvrez **Libs / Tools** et installez les versions de **PHP** et **Node** dont vous avez besoin.
 4. Sur le **Dashboard**, démarrez les services. Nginx et PHP partent aussi seuls si les vhosts doivent répondre.
-5. **Projects → New project**. Importez un dossier ou créez un Laravel. Le vhost, l’entrée `hosts` et le certificat sont préparés avec le projet.
+5. **Projects → New project**. Importez un dossier, créez un Laravel, ou partez d’un **Template**. Le vhost, l’entrée `hosts` et le certificat sont préparés avec le projet.
 6. Ouvrez `https://votre-projet.test`.
 
 Pour capter les e-mails d’une app Laravel, démarrez **Mailpit** puis voir sa configuration dans Libs/Tools. Le SMTP local est `127.0.0.1:1025`, l’interface web est sur [http://localhost:8025](http://localhost:8025).
@@ -216,8 +266,8 @@ Pour capter les e-mails d’une app Laravel, démarrez **Mailpit** puis voir sa 
 | Couche | Technologie |
 |---|---|
 | Desktop | Tauri 2, WebView2 |
-| Cœur | Rust (Tokio, gestion de processus, CA locale) |
-| Interface | React 19, TypeScript, Vite 6, Tailwind CSS 4, Zustand, TanStack Query |
+| Cœur | Rust (Tokio, gestion de processus, CA locale, SQLite) |
+| Interface | React 19, TypeScript, Vite 6, Tailwind CSS, Zustand, TanStack Query |
 | Terminal | xterm.js |
 | Service Windows | `AtproSsHelper` (compte LocalSystem, tube nommé) |
 
@@ -225,6 +275,6 @@ Pour capter les e-mails d’une app Laravel, démarrez **Mailpit** puis voir sa 
 
 ## Statut
 
-Version **0.1.0**, en usage de développement. Les retours (bugs, captures, demandes) sont les bienvenus sur le dépôt [atpro_ss](https://github.com/as199/atpro-ss).
+Version **0.5.0**, en usage de développement. Les retours (bugs, captures, demandes) sont les bienvenus sur le dépôt [atpro_ss](https://github.com/as199/atpro-ss).
 
 © ATPRO CORPORATE

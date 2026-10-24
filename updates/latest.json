@@ -1,11 +1,11 @@
-{
-  "version": "0.1.0",
-  "notes": "ATPRO-SS 0.1.0 — première version publique. Canal auto-update actif (Ed25519).",
-  "pub_date": "2026-10-14T23:49:16Z",
+﻿{
+  "version": "0.5.0",
+  "notes": "ATPRO-SS 0.5.0",
+  "pub_date": "2026-10-24T03:12:19Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRTDVUSHl6NEhFTzVtbGlXaWF4S1VRZ0ZLSWNqdmd6cFVqdXkrKzRHWEpXZDJ1NWtyWDZ5VkJSaTdTMVlzU1M2S1FCWGVGc1lBTU5ESUhHcEdXMFJpVk1DTXhQQmo5NUFZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyODA2NTY5CWZpbGU6QVRQUk8tU1NfMC4xLjBfeDY0LXNldHVwLmV4ZQpiVWFkOHI4L2Z3VEZ0OGZJWnVNUzA4YXEzcUZrT25hK2IvNmVkT1Fza1lIaEtGNFRPcFh5U201VURNZm5lN2xoeVNndmxrdHlpeWxrdzlzZ2dpcitCQT09Cg==",
-      "url": "https://github.com/as199/atpro-ss/releases/download/v0.1.0/ATPRO-SS_0.1.0_x64-setup.exe"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRTDVUSHl6NEhFTzZobUtQdzd6bC96U0RLNGFPMHI2U1hrTGRpNWc1SWF6Wk1RcktZSllrSmt5UllRWUpZRGRnUitySTNoTmZWL1JTTFk0NS9udS90cTFnNUlOR3dmL0FrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyODExNDIzCWZpbGU6QVRQUk8tU1NfMC41LjBfeDY0LXNldHVwLmV4ZQl2ZXJzaW9uOjAuNS4wCmJiV2g3dXBzT3VtaVFPRjRidHRJc2JpNWlQRm9YZFZnK0tSSHVkVTBsWHRITnlSdjFmK0l0bVl4MkJKZ2puS28ydTFiZFh1SExYYnMraFF4ZkN6R0N3PT0K",
+      "url": "https://github.com/as199/atpro-ss/releases/download/v0.5.0/ATPRO-SS_0.5.0_x64-setup.exe"
     }
   }
 }
