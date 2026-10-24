@@ -78,8 +78,10 @@ $latestObj = [ordered]@{
   }
 }
 $latestPath = Join-Path $PSScriptRoot "latest.json"
-$latestObj | ConvertTo-Json -Depth 6 | Set-Content -Path $latestPath -Encoding utf8
-Write-Host "Wrote $latestPath"
+$jsonText = ($latestObj | ConvertTo-Json -Depth 6) + "`n"
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::WriteAllText($latestPath, $jsonText, $utf8NoBom)
+Write-Host "Wrote $latestPath (UTF-8 no BOM)"
 
 # Resolve or create release
 $release = $null
@@ -105,8 +107,13 @@ function Upload-Asset([string]$Path) {
   $name = [IO.Path]::GetFileName($Path)
   $existing = @($release.assets | Where-Object { $_.name -eq $name })
   foreach ($a in $existing) {
-    Write-Host "Deleting existing asset $name..."
-    Invoke-RestMethod -Method Delete -Headers $headers -Uri $a.url | Out-Null
+    Write-Host "Deleting existing asset $name (id=$($a.id))..."
+    $delUrl = "https://api.github.com/repos/$Repo/releases/assets/$($a.id)"
+    try {
+      Invoke-RestMethod -Method Delete -Headers $headers -Uri $delUrl | Out-Null
+    } catch {
+      Write-Host "Warn delete $name : $($_.Exception.Message)"
+    }
   }
   # refresh release for upload_url after deletes
   $release = Invoke-RestMethod -Headers $headers -Uri "https://api.github.com/repos/$Repo/releases/$($release.id)"
