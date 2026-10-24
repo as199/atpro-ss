@@ -53,6 +53,12 @@
 
 **Données.** En mode installé, la racine est `%APPDATA%\ATPRO-SS`. En développement et en mode portable, elle est le dossier de l’application. Projets, certificats, logs et configuration y survivent à une mise à jour de l’exécutable.
 
+**Mises à jour.** Settings → Updates interroge le canal signé Ed25519 :
+- `https://github.com/as199/atpro-ss/releases/latest/download/latest.json`
+- fallback : [`updates/latest.json`](./updates/latest.json) sur cette branche `master`
+
+Voir [`updates/README.md`](./updates/README.md) pour republier le manifeste.
+
 **Prérequis :** Windows 10 21H2+ ou Windows 11, x64 · WebView2 (déjà présent sur ces versions) · droits administrateur au premier lancement de l’installateur NSIS, pour le Helper et le fichier `hosts`.
 
 Au premier lancement, l’application propose d’installer la pile **Nginx 1.30**, **MySQL 8.4** et **Redis**. PHP et Node s’ajoutent ensuite depuis **Libs / Tools**.
